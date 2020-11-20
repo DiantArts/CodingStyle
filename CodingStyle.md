@@ -7,16 +7,6 @@ years of programming. Those rules aren't objectively correct and are susceptible
 This Coding style is purely oriented toward readability and explicitness and is therefore strict and
 painfull to put into practice.
 
-Design
-----------------------
-
-### Files
-
-- 
-
--
-
--
 
 Variables
 ----------------------
@@ -61,10 +51,20 @@ size_t m_size;
 
 
 
-Classes
+Structures and Classes
 ----------------------
+
+### Structures vs Classes
+A structure should be use only for **passive objects** that carry public data.
+Furthermore, data fields must not imply relationship between other fields.
+Finaly, only constructors, destructors and helper methods may be present
+
+### Naming convention
+Classes' and Structures' names must follow the **PamelCase** convention.
+
 ### Access specifier
-Classes Access specifiers must be **as indented as the class keyword** and be declared as the following order:
+Access specifiers must be **as indented as the class keyword** and be declared as the following
+order: public then protected then private
 ```cpp
 class Person {
 public:
@@ -77,7 +77,7 @@ Access specifiers must be used to seperate variables from methods
 ```cpp
 class Person {
 public:
-    Person(const std::string_view name);
+    explicit Person(const std::string_view name);
     ~Person() = default;
 
 public:
@@ -89,5 +89,56 @@ private:
 ```
 
 
-Design
+### Constructors
+Constructors **must not allow implicit conversions** by default. The usage of explicit keyword is required
+for constructors and conversion operators.
+```cpp
+class ImaginaryNumber {
+public:
+    explicit ImaginaryNumber(const int reelPart, const int imaginaryPart);
+...
+    explicit operator int() const;
+...
+};
+```
+
+### Inheritance
+Composition is often more appropriate than inheritance. Inheritance must be restricted to an **is a** or **is a kind of** utilisation.
+
+API Specific
 ----------------------
+
+### Copyable and Movable types
+Every types must have a clear definition whether the the type is copyable,
+movable or neither copyable nor movable.
+```cpp
+class Copyable {
+public:
+  Copyable(const Copyable& other) = default;
+  Copyable& operator=(const Copyable& other) = default;
+
+  // The implicit move operations are suppressed by the declarations above.
+};
+
+class MoveOnly {
+public:
+  MoveOnly(MoveOnly&& other) = default;
+  MoveOnly& operator=(MoveOnly&& other) = default;
+
+  // The copy operations are implicitly deleted
+  MoveOnly(const MoveOnly&) = delete;
+  MoveOnly& operator=(const MoveOnly&) = delete;
+};
+
+class NotCopyableNorMovable {
+public:
+  NotCopyableNorMovable(const NotCopyableNorMovable&) = delete;
+  NotCopyableNorMovable& operator=(const NotCopyableNorMovable&) = delete;
+
+  // The move operations are implicitly disabled, but you can
+  // spell that out explicitly if you want:
+  NotCopyableNorMovable(NotCopyableNorMovable&&) = delete;
+  NotCopyableNorMovable& operator=(NotCopyableNorMovable&&) = delete;
+};
+```
+
