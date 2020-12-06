@@ -198,10 +198,34 @@ NonCopyable class must be prefered over manual deleted operator and constructor 
 ```cpp
 class NonCopyable {
 public:
-    NonCopyable()                   = default;
-    ~NonCopyable()                  = default;
+    NonCopyable() = default;
+    ~NonCopyable() = default;
+    
     NonCopyable(const NonCopyable&) = delete;
     NonCopyable& operator=(const NonCopyable&) = delete;
+    
+    NonCopyable(NonCopyable&&) = default;
+    NonCopyable& operator=(NonCopyable&&) = default;
+};
+
+class Cube : public NonCopyable {
+...
+}
+```
+
+### NonCopyableMovable
+NonCopyable class must be prefered over manual deleted operator and constructor as it improve readability
+```cpp
+class NonCopyableMovable {
+public:
+    NonCopyableMovable() = default;
+    ~NonCopyableMovable() = default;
+    
+    NonCopyableMovable(const NonCopyableMovable&) = delete;
+    NonCopyableMovable& operator=(const NonCopyableMovable&) = delete;
+    
+    NonCopyableMovable(NonCopyableMovable&&) = delete;
+    NonCopyableMovable& operator=(NonCopyableMovable&&) = delete;
 };
 
 class Cube : public NonCopyable {
