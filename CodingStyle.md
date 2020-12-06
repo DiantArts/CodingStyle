@@ -20,7 +20,7 @@ size_t oldStrSize;
 Their utility must **not be ambiguous** but shouldn't damage the code clarity. Therefore, if the name isn't enough to fully explain their role, or if would be too long, they must be preceded by a comment bringing further explainations.
 ```cpp
 // file that is supposed to contain informations about people that the user is connected to
-std::ifstream informationFile;
+std::ifstream userInformationsFile;
 ```
 
 ### Global or Public member Variables
