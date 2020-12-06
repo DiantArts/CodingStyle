@@ -187,7 +187,7 @@ ERROR:
 Copy and Move
 ----------------------
 
-### Move as much as possible
+### Move over copy
 Move sementics must be used as much as possible
 ```cpp
 vector.push_back(std::move(str));
