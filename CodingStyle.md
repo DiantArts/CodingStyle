@@ -56,6 +56,25 @@ Types
 ### 
 
 
+Namespaces
+----------------------
+
+### Naming convention
+Namespaces' names must follow the **camelCase** convention. Furthermore, its name should mostly be singular as it should allow the user to access the class as he is declaring a name, not accessing a group of name. Namespaces must also be closed by a brace followed by a commentary of the closing namespace
+```cpp
+namespace object { // OK
+    Table table;
+    Chair chair;
+} // namespace object
+
+
+namespace objects { // KO
+    Table table;
+    Chair chair;
+}
+```
+
+
 Structures and Classes
 ----------------------
 
@@ -142,7 +161,7 @@ If a conditional statmement can return, it should do so and no else must be used
 ### Ternary expressions
 Ternary expressions must be only used to return values, not to control the program flow, and should not be nested or chained.
 ```cpp
-size_t maxStrSize { (str1.size() < str2.size()) ? str2.size() : str2.size() };
+size_t maxStrSize { (str1.size() < str2.size()) ? str1.size() : str2.size() };
 ```
 
 ### Goto
