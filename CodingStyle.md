@@ -223,7 +223,8 @@ public:
     NonCopyableMovable(NonCopyableMovable&&) = delete;
     NonCopyableMovable& operator=(NonCopyableMovable&&) = delete;
 };
-
+```
+```cpp
 class Cube : public NonCopyable {
 ...
 }
