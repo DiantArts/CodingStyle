@@ -208,10 +208,6 @@ public:
     NonCopyable& operator=(NonCopyable&&) = default;
 };
 
-class Cube : public NonCopyable {
-...
-}
-
 class NonCopyableMovable {
 public:
     NonCopyableMovable() = default;
