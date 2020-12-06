@@ -48,8 +48,19 @@ Unused variables must be marked as [[ unused ]], [[ maybe_unused ]] or they shou
 Types
 ----------------------
 
-### 
+### Choice
+The type choice should be match the variable utility.
+```cpp
+size_t strLength { str.size() }; // size_t is used as it describe a size
+for (uint_fast8_t i { 0 }; i < 10; i++) { ... } // as i is in range of [0, 10], uint8 is the best match.
+```
 
+### cstdint
+the usage of cstdint must be prioritized over a simple int as it allow the user to define clearly the variable range.
+(u)int_fastX_t and (u)int_leastX_t must be prioritized over (u)intX_t as it let the compiler chose the actual used type.
+
+### auto
+auto should be used as much as possible as it simplify the readability of the code.
 
 Namespaces
 ----------------------
@@ -171,4 +182,29 @@ However, labels must not be acceccible without passing through a goto. Labels' n
 ERROR:
 ...
     return false;
+```
+
+Copy and Move
+----------------------
+
+### Move as much as possible
+Move sementics must be used as much as possible
+```cpp
+vector.push_back(std::move(str));
+```
+
+### NonCopyable
+NonCopyable class must be prefered over manual deleted operator and constructor as it improve readability
+```cpp
+class NonCopyable {
+public:
+    NonCopyable()                   = default;
+    ~NonCopyable()                  = default;
+    NonCopyable(const NonCopyable&) = delete;
+    NonCopyable& operator=(const NonCopyable&) = delete;
+};
+
+class Cube : public NonCopyable {
+...
+}
 ```
