@@ -42,7 +42,7 @@ size_t m_size;
 ```
 
 ### Unused variables
-Unused variables must be marked as [[ unused ]], [[ maybe_unused ]] or they shouldn't have a given name.
+Unused variables shouldn't have a name.
 
 
 Types
