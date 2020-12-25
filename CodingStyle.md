@@ -78,7 +78,7 @@ namespace space { // OK
 } // namespace space
 
 
-namespace spaces { // KO: pluriel
+namespace spaces { // KO: plural
     class Table {
         ...
     };
