@@ -68,16 +68,24 @@ Namespaces
 ### Naming convention
 Namespaces' names must follow the **camelCase** convention. Furthermore, its name should mostly be singular as it should allow the user to access the class as he is declaring a name, not accessing a group of name. Namespaces must also be closed by a brace followed by a commentary of the closing namespace
 ```cpp
-namespace object { // OK
-    Table table;
-    Chair chair;
+namespace space { // OK
+    class Table {
+        ...
+    };
+    class Chair {
+        ...
+    };
 } // namespace object
 
 
-namespace objects { // KO
-    Table table;
-    Chair chair;
-}
+namespace spaces { // KO
+    class Table {
+        ...
+    };
+    class Chair {
+        ...
+    };
+}                  // KO
 ```
 
 
