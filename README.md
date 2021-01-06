@@ -213,16 +213,13 @@ public:
     NonCopyable& operator=(NonCopyable&&) = default;
 };
 
-class NonCopyableMovable {
+class NonMovable {
 public:
-    NonCopyableMovable() = default;
-    ~NonCopyableMovable() = default;
+    NonMovable() = default;
+    ~NonMovable() = default;
     
-    NonCopyableMovable(const NonCopyableMovable&) = delete;
-    NonCopyableMovable& operator=(const NonCopyableMovable&) = delete;
-    
-    NonCopyableMovable(NonCopyableMovable&&) = delete;
-    NonCopyableMovable& operator=(NonCopyableMovable&&) = delete;
+    NonMovable(NonMovable&&) = delete;
+    NonMovable& operator=(NonMovable&&) = delete;
 };
 ```
 ```cpp
