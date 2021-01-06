@@ -76,16 +76,6 @@ namespace space { // OK
         ...
     };
 } // namespace space
-
-
-namespace spaces { // KO: plural
-    class Table {
-        ...
-    };
-    class Chair {
-        ...
-    };
-}                  // KO: no ending namespace comment
 ```
 
 
