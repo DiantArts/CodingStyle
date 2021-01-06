@@ -1,7 +1,7 @@
 Coding Style
 =============
 
-This Coding Style is an attempt to list every programming conventions that I've encounters along my years of programming. Those rules aren't objectively correct and are susceptible to change.
+This Coding Style is an attempt to list every programming conventions that we've encounters along our years of programming. Those rules aren't objectively correct and are susceptible to change.
 
 This Coding style is purely oriented toward readability and explicitness and is therefore strict and painfull to put into practice.
 
