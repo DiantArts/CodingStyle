@@ -161,6 +161,13 @@ Switches conditional branching should be prefered over multiple if branches when
 
 ### Nested conditional statements
 If a conditional statmement can return, it should do so and no else must be used to use as less depth as possible. Also, Nested conditional braching with a depth of more than 3 should be avoid or splited into several functions.
+```cpp
+    if (...) {
+        return true;
+    }
+...
+    return false
+```
 
 ### Ternary expressions
 Ternary expressions must be only used to return values, not to control the program flow, and should not be nested or chained.
