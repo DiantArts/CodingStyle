@@ -198,8 +198,8 @@ Move sementics must be used as much as possible
 vector.push_back(std::move(str));
 ```
 
-### NonCopyable and NonCopyableMovable
-NonCopyable and NonCopyableMovable classes must be prefered over manual deleted operators and constructors as it improve readability
+### NonCopyable and NonMovable
+NonCopyable and NonMovable classes must be prefered over manual deleted operators and constructors as it improve readability
 ```cpp
 class NonCopyable {
 public:
