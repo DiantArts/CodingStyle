@@ -23,19 +23,19 @@ Their utility must **not be ambiguous** but shouldn't damage the code clarity. T
 std::ifstream userInformationsFile;
 ```
 
-### Global or Public member Variables
+### Global variables
 The Name of global must follow the **PamelCase** convention preceded by **g_**.
 ```cpp
 bool g_IsGameRunning;
 ```
 
-### Non-member
+### Non-member and public member Variables
 The Name of Non-member or Public member variables must follow the **camelCase** convention.
 ```cpp
 size_t oldStrSize;
 ```
 
-### Private/Protected member Variables
+### Private/Protected member variables
 The Name of member variables must follow the **PamelCase** convention preceded by **m_** to explicitly separate them from methods' arguments.
 ```cpp
 size_t m_size;
