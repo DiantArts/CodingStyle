@@ -119,7 +119,7 @@ Access specifiers must be used to seperate variables from methods
 ```cpp
 class Person {
 public:
-    explicit Person(const std::string_view name);
+    explicit Person(std::string_view name);
     ~Person() = default;
 
 public:
@@ -150,7 +150,7 @@ Constructors **must not allow implicit conversions** by default. The usage of ex
 ```cpp
 class ImaginaryNumber {
 public:
-    explicit ImaginaryNumber(const int reelPart, const int imaginaryPart);
+    explicit ImaginaryNumber(int reelPart, int imaginaryPart);
 ...
     explicit operator int() const;
 ...
