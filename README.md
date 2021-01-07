@@ -193,13 +193,13 @@ Copy and Move
 ----------------------
 
 ### Move over copy
-Move sementics must be used as much as possible
+Move sementics must be used as much as possible.
 ```cpp
 vector.push_back(std::move(str));
 ```
 
 ### NonCopyable and NonMovable
-NonCopyable and NonMovable classes must be prefered over manual deleted operators and constructors as it improve readability
+NonCopyable and NonMovable classes must be prefered over manual deleted operators and constructors as it improve readability.
 ```cpp
 class NonCopyable {
 public:
@@ -235,14 +235,27 @@ Not classed yet
 ----------------------
 Every .cpp files should have an associated .hpp file.
 
-Every module files must stand as .cppm
+Every module files must stand as .cppm.
 
-Every header files should be self-contained and compilable
+Every header files should be self-contained and compilable.
 
-Includes guards must be used over #pragma once. The name format must be `___INCLUDE_GUARD_<PATH_FROM_ROOT_DIR>_<EXTENTION>`. Also, the endif must be followed by the name of the define
+Includes guards must be used over #pragma once. The name format must be `___INCLUDE_GUARD_<PATH_FROM_ROOT_DIR>_<EXTENTION>`. Also, the endif must be followed by the name of the define.
 ```cpp
 #ifndef ___INCLUDE_GUARD_SOURCES_HEADER_HPP
 #define ___INCLUDE_GUARD_SOURCES_HEADER_HPP
 ...
 #endif // ___INCLUDE_GUARD_SOURCES_HEADER_HPP
 ```
+
+Includes must be usefull. A useless one must be remove.
+An include from a header must not be usefull to another one, but to its self.
+
+In headers, use forward declaration as much as you can.
+
+Inline functions for no reason should be avoid. Small functions like accessors can be defined as inline though.
+
+Includes order: main related file (.hpp for .cpp), C++ standard library headers, C++ externes library headers, C stystem headers, Personal headers. Every categories must be separated by a blank line. Includes must be sort as alphabetical order if possible.
+
+Included filepaths must be relative to the includer.
+
+In cpp, C++ standard library headers must be prefered over C system headers, like `cstdio` over `stdio.h`.
