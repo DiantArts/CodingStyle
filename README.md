@@ -231,7 +231,7 @@ class Cube : public NonCopyable {
 }
 ```
 
-Not classed yet
+Not classed yet : Headers
 ----------------------
 Every .cpp files should have an associated .hpp file.
 
@@ -259,3 +259,141 @@ Includes order: main related file (.hpp for .cpp), C++ standard library headers,
 Included filepaths must be relative to the includer.
 
 In cpp, C++ standard library headers must be prefered over C system headers, like `cstdio` over `stdio.h`.
+
+Not classed yet : Namespaces
+----------------------
+
+Always placing code in namespace.
+
+Avoid `using namespace`.
+
+Avoid namespace aliases, at least in header files.
+
+Terminate multiline namespaces with comment:
+```
+namespace foo {
+...
+} // namespace foo
+```
+
+Do not include inside namespaces.
+
+Use the namespace detail for internal details that are not visible in the public interface and that should be ignored by external users.
+
+Never declare anything inside namespace `std`.
+
+Unnamed namespaces must be prefered over static functions and variables
+
+Place variables and function inside namespaces rather than inside a class they aren't related to or a simple class that only stands for it if it doesn't make sense.
+
+Not classed yet : Variable
+----------------------
+
+Place a function's variable in the narrowest scope possible and initialize it in the declaration.
+
+Place a scope if needed ?
+
+Do not declare an unused variable and declare it as close to its first utilisation as possible.
+
+Explicit constructor call must be used to initialize a variable, using brackets :
+```cpp
+size_t size { 0 };
+```
+
+If the variable is an object, do not call its constructor every time it enters the scope
+```cpp
+Foo f;
+for (uint_fast8_t i = 0; i < 100; i++) {
+    f.DoSomething(i);
+}
+```
+Avoid static storage duration as much as possible.
+
+Not classed yet : Classes
+----------------------
+
+Avoid virtual method calls.
+
+overload operators only if their meaning is obvious and consistent with the built-in operators. For example, `|` operator stands for bitwise- or logical-or, not shell-style pipe.
+
+Data members should be defined as `private` unless they are constants.
+
+Not classed yet : Function
+----------------------
+
+Always prefer return values as output parameters except for performance issues.
+
+Prefer throw over error return values.
+
+Prefer small functions, and prefer splitting a long function if it does not harm the program's structure.
+
+Do not overload function if it modifies its logic.
+
+Use trailing return type syntax only if it improves readability.
+
+
+Not classed yet : C++20
+----------------------
+
+Use `std::string_view` as much as possible.
+
+Use 3-way comparison as much as possible
+
+Not classed yet : Others
+----------------------
+
+Prefer smart pointers over raw pointers.
+
+Use friend only when it improves readability or simplifies the code.
+
+Ue noexcept only on usefull cases.
+
+Prefer C++style cast over any other cast formats
+
+Prefer prefix form of ncrement and decrement operators.
+
+Use constexpr as much as possible, and use const if constexpr isn't possible. Do not place const when it doesn't change anything. For example:
+```cpp
+// Foo.hpp
+class Foo {
+    void doSomething(int value);
+};
+
+// Foo.cpp
+void Foo::doSomething(const int value)
+{
+...
+}
+```
+
+Use macro only when needed.
+
+Prefer nullptr over NULL and \0 over char(0).
+
+Prefer sizeof(var) over sizeof(type).
+
+prefer typename over class when defining template.
+
+Line should be at most 100 characters long. Indentation must be 4 spaces length and not using tabs.
+
+Floating points must be defined following with `F` :
+```cpp
+float value { 5.0F };
+```
+
+When a boolean expression is longer than the line length, break up the line after the operator and add a level of indentation :
+```cpp
+if (foo > 5 &&
+    bar < 5) {
+...
+}
+```
+
+Do not place parentheses surrounding the return expression except if it improves readability :
+```cpp
+return true;
+```
+
+No extra indentation withing namespaces must be placed.
+
+Avoid trailing spaces.
