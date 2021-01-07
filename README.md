@@ -230,3 +230,19 @@ class Cube : public NonCopyable {
 ...
 }
 ```
+
+Not classed yet
+----------------------
+Every .cpp files should have an associated .hpp file.
+
+Every module files must stand as .cppm
+
+Every header files should be self-contained and compilable
+
+Includes guards must be used over #pragma once. The name format must be `___INCLUDE_GUARD_<PATH_FROM_ROOT_DIR>_<EXTENTION>`. Also, the endif must be followed by the name of the define
+```cpp
+#ifndef ___INCLUDE_GUARD_SOURCES_HEADER_HPP
+#define ___INCLUDE_GUARD_SOURCES_HEADER_HPP
+...
+#endif // ___INCLUDE_GUARD_SOURCES_HEADER_HPP
+```
