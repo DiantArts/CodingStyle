@@ -399,3 +399,10 @@ No extra indentation withing namespaces must be placed.
 Avoid trailing spaces.
 
 Avoid recursion
+
+Prefered map for range-based loop syntax :
+```cpp
+std::map<int, int> map;
+for (auto& [key, value] : map) {
+}
+```
