@@ -397,3 +397,5 @@ return true;
 No extra indentation withing namespaces must be placed.
 
 Avoid trailing spaces.
+
+Avoid recursion
