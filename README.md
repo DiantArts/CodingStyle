@@ -24,9 +24,9 @@ std::ifstream userInformationsFile;
 ```
 
 ### Global variables
-The Name of global must follow the **PamelCase** convention preceded by **g_**.
+The Name of global must follow the **camelCase** convention preceded by **g_**.
 ```cpp
-bool g_IsGameRunning;
+bool g_isGameRunning;
 ```
 
 ### Non-member and public member Variables
@@ -36,13 +36,23 @@ size_t oldStrSize;
 ```
 
 ### Private/Protected member variables
-The Name of member variables must follow the **PascalCase** convention preceded by **m_** to explicitly separate them from methods' arguments.
+The Name of member variables must follow the **camelCase** convention preceded by **m_** to explicitly separate them from methods' arguments.
 ```cpp
-size_t m_Size;
+size_t m_size;
 ```
 
-### Unused variables
+### Unused parameters
 Unused variables shouldn't have a name.
+```cpp
+void func(int)
+{}
+```
+
+### Unused 
+Should be named **_**
+```cpp
+
+```
 
 
 Types
