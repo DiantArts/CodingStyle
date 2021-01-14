@@ -7,6 +7,8 @@ This Coding style is purely oriented toward readability and explicitness and is 
 
 Therefore, this coding style isn't written to explain why rules stands like so, but just list them.
 
+Exceptions ...
+
 
 Variables
 ----------------------
@@ -48,12 +50,6 @@ void func(int)
 {}
 ```
 
-### Unused 
-Should be named **_**
-```cpp
-
-```
-
 
 Types
 ----------------------
@@ -62,31 +58,67 @@ Types
 The type choice should be match the variable utility.
 ```cpp
 size_t strLength { str.size() }; // size_t is used as it describe a size
-for (uint_fast8_t i { 0 }; i < 10; i++) { ... } // as i is in range of [0, 10], uint8 is the best match.
 ```
-
-### cstdint
-the usage of cstdint must be prioritized over a simple int as it allow the user to define clearly the variable range.
-(u)int_fastX_t and (u)int_leastX_t must be prioritized over (u)intX_t as it let the compiler chose the actual used type.
 
 ### auto
 auto should be used as much as possible as it simplify the readability of the code.
+
+### References
+Order of choice
+Const reference: Use to avoid copy or as observer.
+Reference: Refers to a not owned thing that will be modified.
+Reference wrapper: A copyable and assignable reference.
+
+### Const reference wrapper
+Use reference wrapper of const type when possible :
+```cpp
+std::referencer_wrapper<const TypeName> constReference;
+```
+
+### Pointers
+smart pointers: Polymorphism, C libraries usage or usage of big objects that need to be on the heap.
+raw pointers: Never use.
+
+## Custom deleter of smart pointers
+Prefer custom deleter over manual destruction.
+
 
 Namespaces
 ----------------------
 
 ### Naming convention
-Namespaces' names must follow the **camelCase** convention. Furthermore, its name should mostly be singular as it should allow the user to access the class as he is declaring a name, not accessing a group of name. Namespaces must also be closed by a brace followed by a commentary of the closing namespace
+Namespaces' names must follow the **camelCase** convention and should mostly be singular. Multiline namespaces must also be closed by a brace followed by a commentary of the closing namespace.
 ```cpp
+namespace space { class Chair; }
+
 namespace space { // OK
     class Table {
-        ...
+    private:
+        Chair& chair;
     };
     class Chair {
         ...
     };
 } // namespace space
 ```
+
+Always placing code in namespace.
+
+Never `using namespace` in the global scope and prefer `using` over `using namespace`, always in the smallest scope possible.
+
+Avoid namespace aliases in header files.
+
+Do not include inside namespaces.
+
+Use the namespace detail for internal details that are not visible in the public interface and that should be ignored by external users.
+
+Never declare anything inside namespace `std`.
+
+Unnamed namespaces must be prefered over static functions and variables.
+
+Place variables and functions inside namespaces rather than inside a class they aren't related to or a simple class that only stands for it if it doesn't make sense.
+
+Namespaces shouldn't add indentations.
 
 
 Structures and Classes
@@ -273,28 +305,6 @@ In cpp, C++ standard library headers must be prefered over C system headers, lik
 Not classed yet : Namespaces
 ----------------------
 
-Always placing code in namespace.
-
-Avoid `using namespace`.
-
-Avoid namespace aliases, at least in header files.
-
-Terminate multiline namespaces with comment:
-```
-namespace foo {
-...
-} // namespace foo
-```
-
-Do not include inside namespaces.
-
-Use the namespace detail for internal details that are not visible in the public interface and that should be ignored by external users.
-
-Never declare anything inside namespace `std`.
-
-Unnamed namespaces must be prefered over static functions and variables
-
-Place variables and function inside namespaces rather than inside a class they aren't related to or a simple class that only stands for it if it doesn't make sense.
 
 Not classed yet : Variable
 ----------------------
@@ -352,7 +362,6 @@ Use 3-way comparison as much as possible
 Not classed yet : Others
 ----------------------
 
-Prefer smart pointers over raw pointers.
 
 Use friend only when it improves readability or simplifies the code.
 
@@ -416,3 +425,8 @@ std::map<int, int> map;
 for (auto& [key, value] : map) {
 }
 ```
+
+this->functions
+m_Varaibles
+
+Prefer std::function over function pointers and references
