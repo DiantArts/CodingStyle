@@ -3,9 +3,9 @@ Coding Style
 
 This Coding Style is an attempt to list every programming conventions that we've encounters along our years of programming. Those rules aren't objectively correct and are susceptible to change.
 
-This Coding style is purely oriented toward readability and explicitness and is therefore strict and painfull to put into practice.
+This Coding style is purely oriented toward readability and explicitness and is therefore strict and painful to put into practice.
 
-Therefore, this conding style isn't written to explain why rules stands like so, but just list them.
+Therefore, this coding style isn't written to explain why rules stands like so, but just list them.
 
 
 Variables
@@ -36,9 +36,9 @@ size_t oldStrSize;
 ```
 
 ### Private/Protected member variables
-The Name of member variables must follow the **PamelCase** convention preceded by **m_** to explicitly separate them from methods' arguments.
+The Name of member variables must follow the **PascalCase** convention preceded by **m_** to explicitly separate them from methods' arguments.
 ```cpp
-size_t m_size;
+size_t m_Size;
 ```
 
 ### Unused variables
