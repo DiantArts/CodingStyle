@@ -302,9 +302,6 @@ Included filepaths must be relative to the includer.
 
 In cpp, C++ standard library headers must be prefered over C system headers, like `cstdio` over `stdio.h`.
 
-Not classed yet : Namespaces
-----------------------
-
 
 Not classed yet : Variable
 ----------------------
@@ -328,6 +325,7 @@ for (uint_fast8_t i = 0; i < 100; i++) {
 }
 ```
 Avoid static storage duration as much as possible.
+
 
 Not classed yet : Classes
 ----------------------
@@ -430,3 +428,5 @@ this->functions
 m_Varaibles
 
 Prefer std::function over function pointers and references
+
+Indentation
