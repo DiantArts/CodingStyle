@@ -63,6 +63,10 @@ size_t strLength { str.size() }; // size_t is used as it describe a size
 ### auto
 auto should be used as much as possible as it simplify the readability of the code.
 
+### constness
+Every const variables must be specified as so. Constexpr should be used as much as possible. When constexpr cannot be applied, const must be used instead.
+Remove const qualifier when possible in function declerations.
+
 ### References
 Order of choice
 Const reference: Use to avoid copy or as observer.
@@ -79,8 +83,11 @@ std::referencer_wrapper<const TypeName> constReference;
 smart pointers: Polymorphism, C libraries usage or usage of big objects that need to be on the heap.
 raw pointers: Never use.
 
-## Custom deleter of smart pointers
+### Custom deleter of smart pointers
 Prefer custom deleter over manual destruction.
+
+### Parameters
+When needed, use mutable references. Otherwise, always copy basic types and always pass objects by const references.
 
 
 Namespaces
@@ -125,54 +132,56 @@ Structures and Classes
 ----------------------
 
 ### Structures vs Classes
-A structure should be use only for **passive objects** that carry public data. Furthermore, data fields must not imply relationship between other fields. Finaly, only constructors, destructors and helper methods may be present
-
+A structure should be use only for **passive objects** that carry public data, which means that access specifiers are not allowed. Furthermore, data fields must not imply relationship between other fields. Finaly, only constructors, destructors and operators should be present.
 
 ### Naming convention
-Classes' and Structures' names must follow the **PamelCase** convention.
-
+Classes' and Structures' names must follow the **PascalCase** convention.
 
 ### Single Responsibility Principle (SRP)
 The code should be organised as classes and structures represents only **one object** and doesn't mix different levels of abstraction.
 Moreover, everyhing that can **should be represented as objects**. For exemple, a fonctionnality shouldn't be managed in multiple files. A specific class should be done.
 
+### Encapsulation
+All attributes must be private.
+Getters and setters must always be used.
 
 ### Access specifier
-Access specifiers must be **as indented as the class keyword** and be declared as the following order: public then protected then private
+Access specifiers must be as indented as the class keyword and be declared as the following order: public then protected then private
 ```cpp
+namespace detail { Person }
+
 class Person {
 public:
 protected:
-private:
+    std::unique_ptr<detail::Person> m_PersonDetail;
 };
 ```
 
 Access specifiers must be used to seperate variables from methods
 ```cpp
-class Person {
+struct StructName {
+
+    int age;
+    
+};
+```
+
+```cpp
+class ClassName {
 public:
-    explicit Person(std::string_view name);
-    ~Person() = default;
+    explicit ClassName(TypeName variableName);
+    ~ClassName() = default;
 
 public:
     static constexpr size_t lifeExpectancy { 79 };
 
-private:
-    std::string name;
-};
-```
-Access specifiers for methods must be placed before variables ones
-```cpp
-class Person {
-// methods
-public:
-protected:
-private:
 
-// variables
-public:
-protected:
+
 private:
+    void privateMethod() const;
+
+private:
+    TypeName m_variableName;
 };
 ```
 
@@ -231,7 +240,7 @@ ERROR:
     return false;
 ```
 
-Copy and Move
+Copy
 ----------------------
 
 ### Move over copy
@@ -427,6 +436,15 @@ for (auto& [key, value] : map) {
 this->functions
 m_Varaibles
 
+## OTHER LUUUL
+
 Prefer std::function over function pointers and references
 
 Indentation
+
+I = interface
+A = abrastract
+
+copy and move when always construct
+
+allignement, indentation, espacement, headers, include guards, pimpl, namespace (absolu/relatif)
