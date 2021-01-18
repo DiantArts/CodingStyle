@@ -448,3 +448,5 @@ A = abrastract
 copy and move when always construct
 
 allignement, indentation, espacement, headers, include guards, pimpl, namespace (absolu/relatif)
+
+no `= default`
