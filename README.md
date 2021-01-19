@@ -318,9 +318,9 @@ Always prefer return values to output parameters.
 
 Prefer throw over error return values.
 
-Prefer small functions, and prefer splitting a long function if it does not harm the program's structure.
+Always prefer small functions, and split long functions if it does not harm the program's structure.
 
-Do not overload function if it modifies its logic.
+Do not overload functions if it modifies its logic.
 
 Use trailing return type syntax only if it improves readability.
 
@@ -328,9 +328,9 @@ Use trailing return type syntax only if it improves readability.
 Not classed yet : C++20
 ----------------------
 
-Use `std::string_view` and `std::span` as much as possible.
+Use `std::string_view` and `std::span` over const references.
 
-Use 3-way comparison as much as possible
+Use 3-way comparison as much as possible.
 
 
 Not classed yet : Others
@@ -366,7 +366,7 @@ Prefer nullptr over NULL and \0 over char(0).
 
 Prefer sizeof(var) over sizeof(type).
 
-prefer typename over class when defining template.
+prefer `typename` over `class` when defining template.
 
 Line should be at most 100 characters long. Indentation must be 4 spaces length and not using tabs.
 
