@@ -340,7 +340,7 @@ Always use override when overriding. Moreover, always redeclare pure virtual met
 
 Use friend only when it improves readability or simplifies the code.
 
-Ue noexcept only on useful cases.
+Use noexcept only on useful cases.
 
 Prefer C++ style cast over any other cast formats. Always prefer static_cast. When using dynamic_cast, just think again. Avoid const_cast and reinterpret_cast.
 
@@ -360,20 +360,26 @@ void Foo::doSomething(const int value)
 }
 ```
 
-Use macro only when needed.
+Never use constexpr functions on public APIs
+
+Use macro only when absolutly needed.
+
+Always avoid unbounded recursions.
+
+Prefer iteration over recursion.
 
 Prefer nullptr over NULL and \0 over char(0).
 
 Prefer sizeof(var) over sizeof(type).
 
-prefer `typename` over `class` when defining template.
+Pprefer `typename` over `class` when defining template.
 
-Line should be at most 100 characters long. Indentation must be 4 spaces length and not using tabs.
-
-Floating points must be defined following with `F` :
+Litteral suffixes in lower case:
 ```cpp
-float value { 5.0F };
+float value { 5.0f };
 ```
+
+Hexadecimal letters must be upper case.
 
 When a boolean expression is longer than the line length, break up the line after the operator and add a level of indentation :
 ```cpp
@@ -390,11 +396,9 @@ return true;
 
 No extra indentation withing namespaces must be placed.
 
-Avoid trailing spaces.
+Avoid trailing white characeters.
 
-Avoid recursion
-
-Prefered map for range-based loop syntax :
+Prefer binding structure syntax for range-based loop :
 ```cpp
 std::map<int, int> map;
 for (auto& [key, value] : map) {
@@ -404,11 +408,14 @@ for (auto& [key, value] : map) {
 this->functions
 m_Varaibles
 
-## OTHER LUUUL
+
+OTHER LUUUL
+----------------------
 
 Prefer std::function over function pointers and references
 
 Indentation
+Line should be at most 110 characters long. Indentation must be 4 spaces length and not using tabs.
 
 I = interface
 A = abrastract
