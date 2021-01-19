@@ -145,6 +145,9 @@ Moreover, everyhing that can **should be represented as objects**. For exemple, 
 All attributes must be private.
 Getters and setters must always be used.
 
+### Methods order
+Methods should be ordered as follows: constructors, destructors, assignement operators, then grouped by meaning.
+
 ### Access specifier
 Access specifiers must be as indented as the class keyword and be declared as the following order: public then protected then private
 ```cpp
@@ -185,7 +188,6 @@ private:
 };
 ```
 
-
 ### Constructors
 Constructors **must not allow implicit conversions** by default. The usage of explicit keyword is required for constructors and conversion operators.
 ```cpp
@@ -201,6 +203,7 @@ public:
 ### Inheritance
 Composition is often more appropriate than inheritance. Inheritance must be restricted to an **is a** or **is a kind of** utilisation.
 
+
 Control structures
 ----------------------
 
@@ -210,7 +213,7 @@ If blocks should contain as less branches as possible as multiple branches harm 
 ### Switch conditional branching
 Switches conditional branching should be prefered over multiple if branches when possible. Implicit fallthrough should be avoided. [[ fallthrough ]] attribute stands for that case.
 
-### Nested conditional statements
+### Early returns
 If a conditional statmement can return, it should do so and no else must be used to use as less depth as possible. Also, Nested conditional braching with a depth of more than 3 should be avoid or splited into several functions.
 ```cpp
     if (...) {
@@ -223,101 +226,62 @@ If a conditional statmement can return, it should do so and no else must be used
 ### Ternary expressions
 Ternary expressions must be only used to return values, not to control the program flow, and should not be nested or chained.
 ```cpp
-size_t maxStrSize { (str1.size() < str2.size()) ? str1.size() : str2.size() };
+std::string& longestStr { str1.size() < str2.size() ? str1 : str2 };
 ```
 
 ### Goto
-Goto keyword can be used as long as it improve the code clarity. It can especially be usefull when handling errors.
-However, labels must not be acceccible without passing through a goto. Labels' name must follow the MACRO_CASE convention.
-```cpp
-    if (parser.isUnvalidInput) {
-        goto ERROR:
-    }
-...
-    return true;
-ERROR:
-...
-    return false;
-```
+Goto must not be used.
 
-Copy
+Not classed yet : Libraries
 ----------------------
 
-### Move over copy
-Move sementics must be used as much as possible.
-```cpp
-vector.push_back(std::move(str));
-```
+Libraries include filepaths must be relative to the includer and be indepandant.
 
-### NonCopyable and NonMovable
-NonCopyable and NonMovable classes must be prefered over manual deleted operators and constructors as it improve readability.
-```cpp
-class NonCopyable {
-public:
-    NonCopyable() = default;
-    ~NonCopyable() = default;
-    
-    NonCopyable(const NonCopyable&) = delete;
-    NonCopyable& operator=(const NonCopyable&) = delete;
-    
-    NonCopyable(NonCopyable&&) = default;
-    NonCopyable& operator=(NonCopyable&&) = default;
-};
 
-class NonMovable {
-public:
-    NonMovable() = default;
-    ~NonMovable() = default;
-        
-    NonMovable(const NonMovable&) = default;
-    NonMovable& operator=(const NonMovable&) = default;
-    
-    NonMovable(NonMovable&&) = delete;
-    NonMovable& operator=(NonMovable&&) = delete;
-};
-```
-```cpp
-class Cube : public NonCopyable {
-...
-}
-```
+Not classed yet : Includes
+----------------------
+
+All external functionalities must be explicitly included and not rely on other headers to include them.
+An include from a header must not be useful to another one, but to itself.
+
+Includes must be useful. An useless one must be removed.
+
+Includes order: main related file (.hpp for .cpp), C++ standard library headers, C++ personal headers, C system headers, C personal headers. Every category must be separated by a blank line. Includes must be sorted by alphabetical order.
+
+
 
 Not classed yet : Headers
 ----------------------
 Every .cpp files should have an associated .hpp file.
 
-Every module files must stand as .cppm.
+Includes guards must be used over #pragma once. The name format must be `INCLUDE_GUARD_<PROJECT_NAME>_<PATH_FROM_ROOT_DIR>_<EXTENTION>`.
+Also, the endif must be followed by the name of the define.
+```cpp
+#ifndef INCLUDE_GUARD_LIGHT_SOURCES_HEADER_HPP
+#define INCLUDE_GUARD_LIGHT_SOURCES_HEADER_HPP
+...
+#endif // INCLUDE_GUARD_LIGHT_SOURCES_HEADER_HPP
+```
 
 Every header files should be self-contained and compilable.
 
-Includes guards must be used over #pragma once. The name format must be `___INCLUDE_GUARD_<PATH_FROM_ROOT_DIR>_<EXTENTION>`. Also, the endif must be followed by the name of the define.
-```cpp
-#ifndef ___INCLUDE_GUARD_SOURCES_HEADER_HPP
-#define ___INCLUDE_GUARD_SOURCES_HEADER_HPP
-...
-#endif // ___INCLUDE_GUARD_SOURCES_HEADER_HPP
-```
-
-Includes must be usefull. A useless one must be remove.
-An include from a header must not be usefull to another one, but to its self.
-
 In headers, use forward declaration as much as you can.
 
-Inline functions for no reason should be avoid. Small functions like accessors can be defined as inline though.
-
-Includes order: main related file (.hpp for .cpp), C++ standard library headers, C++ externes library headers, C stystem headers, Personal headers. Every categories must be separated by a blank line. Includes must be sort as alphabetical order if possible.
-
-Included filepaths must be relative to the includer.
+Inline functions for no reason should be avoided.
 
 In cpp, C++ standard library headers must be prefered over C system headers, like `cstdio` over `stdio.h`.
+
+
+Not classed yet : Modules
+----------------------
+
+Every module files must stand as .cppm.
 
 
 Not classed yet : Variable
 ----------------------
 
-Place a function's variable in the narrowest scope possible and initialize it in the declaration.
-
-Place a scope if needed ?
+Place a function's variable in the narrowest scope possible and initialize it in the declaration. Create a scope if needed.
 
 Do not declare an unused variable and declare it as close to its first utilisation as possible.
 
@@ -329,26 +293,28 @@ size_t size { 0 };
 If the variable is an object, do not call its constructor every time it enters the scope
 ```cpp
 Foo f;
-for (uint_fast8_t i = 0; i < 100; i++) {
+for (auto i { 0 }; i < 100; ++i) {
     f.DoSomething(i);
 }
 ```
+
 Avoid static storage duration as much as possible.
 
 
 Not classed yet : Classes
 ----------------------
 
-Avoid virtual method calls.
+Avoid virtual methods when no reasons.
 
 overload operators only if their meaning is obvious and consistent with the built-in operators. For example, `|` operator stands for bitwise- or logical-or, not shell-style pipe.
 
 Data members should be defined as `private` unless they are constants.
 
+
 Not classed yet : Function
 ----------------------
 
-Always prefer return values as output parameters except for performance issues.
+Always prefer return values to output parameters.
 
 Prefer throw over error return values.
 
@@ -362,21 +328,23 @@ Use trailing return type syntax only if it improves readability.
 Not classed yet : C++20
 ----------------------
 
-Use `std::string_view` as much as possible.
+Use `std::string_view` and `std::span` as much as possible.
 
 Use 3-way comparison as much as possible
+
 
 Not classed yet : Others
 ----------------------
 
+Always use override when overriding. Moreover, always redeclare pure virtual methods of parent classes. 
 
 Use friend only when it improves readability or simplifies the code.
 
-Ue noexcept only on usefull cases.
+Ue noexcept only on useful cases.
 
-Prefer C++style cast over any other cast formats
+Prefer C++ style cast over any other cast formats. Always prefer static_cast. When using dynamic_cast, just think again. Avoid const_cast and reinterpret_cast.
 
-Prefer prefix form of ncrement and decrement operators.
+Prefer prefix form of increment and decrement operators.
 
 Use constexpr as much as possible, and use const if constexpr isn't possible. Do not place const when it doesn't change anything. For example:
 ```cpp
@@ -450,3 +418,9 @@ copy and move when always construct
 allignement, indentation, espacement, headers, include guards, pimpl, namespace (absolu/relatif)
 
 no `= default`
+
+Always place brackets on statements.
+
+final keyword
+
+nodiscard (operator++/etc)
