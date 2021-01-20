@@ -322,8 +322,6 @@ Always prefer small functions, and split long functions if it does not harm the 
 
 Do not overload functions if it modifies its logic.
 
-Use trailing return type syntax only if it improves readability.
-
 
 Not classed yet : C++20
 ----------------------
@@ -332,6 +330,116 @@ Use `std::string_view` and `std::span` over const references.
 
 Use 3-way comparison as much as possible.
 
+
+Not classed yet : Format
+----------------------
+
+Prototypes of functions always break lines for everything :
+```cpp
+class Foo {
+    template <
+        typename TypeA
+    > static constexpr auto func(
+        const std::string& key,
+        const int value
+    )
+        -> TypeA;
+
+    virtual auto func(
+        const std::string& key,
+        const int value
+    )
+        -> int;
+
+    void setValue(
+        int value
+    );
+
+    auto getValue(
+    ) const
+        -> int;
+        
+    void printValue(
+    ) const;
+};
+
+template <
+    TypeA
+> auto Foo::func(
+    const std::string& key,
+    const int value
+)
+    -> TypeA
+{
+    return 1;
+}
+```
+
+Else
+```cpp
+if (auto i { 0 };
+    rect1.top =< rect2.top &&
+    (rect1.top =< rect2.top &&
+        rect1.width >= rect2Middle) &&
+    rect2.width >= rect1Middle
+) {
+    ...
+}
+
+if (rect1.top =< rect2.top) {
+    ...
+}
+
+while (
+    rect1.top =< rect2.top &&
+    (rect1.top =< rect2.top &&
+        rect1.width >= rect2Middle) &&
+    rect2.width >= rect1Middle
+) {
+    ...
+}
+
+for (auto i { 0 };
+    rect1.top =< rect2.top &&
+    (rect1.top =< rect2.top &&
+        rect1.width >= rect2Middle) &&
+    rect2.width >= rect1Middle
+    i < 10;
+++i) {
+    ...
+}
+
+    auto var1 { 5 };
+    auto var2 {
+        func(2)
+    };
+```
+
+Use trailing return type syntax only if it improves readability.
+
+No extra indentation withing namespaces must be placed.
+
+Avoid trailing white characeters.
+
+functions
+
+Litteral suffixes in lower case:
+```cpp
+float value { 5.0f };
+```
+
+Hexadecimal letters must be upper case.
+
+Do not place parentheses surrounding the return expression except if it improves readability :
+```cpp
+return true;
+```
+
+Line should be at most 110 characters long. Indentation must be 4 spaces length and not using tabs.
+
+allignement, indentation, espacement
+
+Always place brackets on statements.
 
 Not classed yet : Others
 ----------------------
@@ -372,31 +480,7 @@ Prefer nullptr over NULL and \0 over char(0).
 
 Prefer sizeof(var) over sizeof(type).
 
-Pprefer `typename` over `class` when defining template.
-
-Litteral suffixes in lower case:
-```cpp
-float value { 5.0f };
-```
-
-Hexadecimal letters must be upper case.
-
-When a boolean expression is longer than the line length, break up the line after the operator and add a level of indentation :
-```cpp
-if (foo > 5 &&
-    bar < 5) {
-...
-}
-```
-
-Do not place parentheses surrounding the return expression except if it improves readability :
-```cpp
-return true;
-```
-
-No extra indentation withing namespaces must be placed.
-
-Avoid trailing white characeters.
+Prefer `typename` over `class` when defining template.
 
 Prefer binding structure syntax for range-based loop :
 ```cpp
@@ -414,20 +498,15 @@ OTHER LUUUL
 
 Prefer std::function over function pointers and references
 
-Indentation
-Line should be at most 110 characters long. Indentation must be 4 spaces length and not using tabs.
-
 I = interface
 A = abrastract
 
 copy and move when always construct
 
-allignement, indentation, espacement, headers, include guards, pimpl, namespace (absolu/relatif)
-
 no `= default`
 
-Always place brackets on statements.
-
 final keyword
+
+headers, include guards, pimpl, namespace (absolu/relatif)
 
 nodiscard (operator++/etc)
