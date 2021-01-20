@@ -97,7 +97,7 @@ Namespaces
 ----------------------
 
 ### Naming convention
-Namespaces' names must follow the **camelCase** convention and should mostly be singular. Multiline namespaces must also be closed by a brace followed by a commentary of the closing namespace.
+Namespaces' names must follow the **camelCase** convention and should mostly be singular. Multiline namespaces must also be closed by a brace followed by a commentary of the closing namespace. The default regular expression must be `^[a-z][a-z_0-9]*$`
 ```cpp
 namespace space { class Chair; }
 
@@ -344,7 +344,7 @@ class Foo {
         typename TypeA
     > static constexpr auto func(
         const std::string& key,
-        const int value
+        const int value = 5
     )
         -> TypeA;
 
@@ -506,12 +506,29 @@ class IClassName; // interfaces
 class AClassName; // abstracts
 ```
 
-Awlays init variables inside the class decleration instead of inside the constructor member initializer list
+Always init variables inside the class decleration instead of inside the constructor member initializer list.
 
-no `= default`
+Never use `= default` in header files.
 
-final keyword
+Always use canonical form of classes:
+```cpp
+class ClassName {
+    ClassName(const ClassName&);
+    ClassName(ClassName&&);
+    ClassName& operator=(const ClassName&);
+    ClassName& operator=(ClassName&&);
+}
+```
 
-headers, include guards, pimpl, namespace (absolu/relatif)
+Use `final` where it makes sense.
 
-nodiscard (operator++/etc)
+Headers format :
+```cpp
+// <ProjectName>
+// <Filepath>
+// <Description>
+```
+
+pimpl, namespace (absolu/relatif).
+
+nodiscard (operator++/etc).
