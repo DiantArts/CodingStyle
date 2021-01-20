@@ -89,6 +89,9 @@ Prefer custom deleter over manual destruction.
 ### Parameters
 When needed, use mutable references. Otherwise, always copy basic types and always pass objects by const references.
 
+### Copy and move idiom 
+When always constructing a type, always take the parameter as copy and move it in the member variable.
+
 
 Namespaces
 ----------------------
@@ -375,7 +378,7 @@ template <
 }
 ```
 
-Else
+< insert explanation > (Always place brackets)
 ```cpp
 if (auto i { 0 };
     rect1.top =< rect2.top &&
@@ -409,19 +412,25 @@ for (auto i { 0 };
     ...
 }
 
-    auto var1 { 5 };
+    const auto tmpvar {
+        anotherWtfLongFunc(str1.size()) -
+        anotherWtfLongFunc(str2.size())
+    };
     auto var2 {
-        func(2)
+        func(1),
+        func(2) + tmpvar,
+        func(3)
     };
 ```
 
-Use trailing return type syntax only if it improves readability.
+```cpp
+static inline const typeName* const
+static constexpr/constinit auto var { 5 };
+```
 
 No extra indentation withing namespaces must be placed.
 
-Avoid trailing white characeters.
-
-functions
+Avoid trailing white characters.
 
 Litteral suffixes in lower case:
 ```cpp
@@ -430,16 +439,13 @@ float value { 5.0f };
 
 Hexadecimal letters must be upper case.
 
-Do not place parentheses surrounding the return expression except if it improves readability :
+Do not place parentheses surrounding the return expression :
 ```cpp
 return true;
 ```
 
 Line should be at most 110 characters long. Indentation must be 4 spaces length and not using tabs.
 
-allignement, indentation, espacement
-
-Always place brackets on statements.
 
 Not classed yet : Others
 ----------------------
@@ -468,17 +474,18 @@ void Foo::doSomething(const int value)
 }
 ```
 
-Never use constexpr functions on public APIs
+Never use `constexpr` and `consteval` functions on public APIs.
 
-Use macro only when absolutly needed.
+Use macro only when absolutely needed.
 
 Always avoid unbounded recursions.
 
 Prefer iteration over recursion.
 
-Prefer nullptr over NULL and \0 over char(0).
+Never use `NULL` and `char(0)`.
 
-Prefer sizeof(var) over sizeof(type).
+Always prefer `sizeof var` over `sizeof(type)`.
+Place parenthesis around `sizeof(type)` but not around `sizeof var`.
 
 Prefer `typename` over `class` when defining template.
 
@@ -489,19 +496,17 @@ for (auto& [key, value] : map) {
 }
 ```
 
-this->functions
-m_Varaibles
+Use `this->` for methods but not for member variables.
 
+Avoid std::function when possible.
 
-OTHER LUUUL
-----------------------
+Filename and classname for interfaces and abstracts classes must be as follows :
+```cpp
+class IClassName; // interfaces
+class AClassName; // abstracts
+```
 
-Prefer std::function over function pointers and references
-
-I = interface
-A = abrastract
-
-copy and move when always construct
+Awlays init variables inside the class decleration instead of inside the constructor member initializer list
 
 no `= default`
 
