@@ -573,9 +573,11 @@ public:
     Date m_birth;
 }
 
+} // namespace ::home
 
 
-Person::Impl::Impl(Date&& birth)
+
+::home::Person::Impl::Impl(Date&& birth)
     : m_birth { birth }
 {}
 
@@ -583,28 +585,25 @@ Person::Impl::Impl(Date&& birth)
 
 // ============================================================== MainClass
 
-Person::Person(Date birth)
+::home::Person::Person(Date birth)
     : m_pimpl { std::make_unique<Person::Impl>(std::move(birth)) }
 {}
 
-Person::getAge()
+int ::home::Person::getAge()
 {
     return m_pimpl.computeAge();
 }
 
-Person::setAge(int newAge)
+void ::home::Person::setAge(int newAge)
 {
     m_age = newAge;
 }
 
-int Person::computeAge()
+int ::home::Person::computeAge()
 {
     ...
 }
 
-
-
-} // namespace ::home
 ```
 
 Namespaces must always be absolute. (testing)
