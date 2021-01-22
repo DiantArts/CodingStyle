@@ -529,6 +529,60 @@ Headers format :
 // <Description>
 ```
 
+Public part of public API's classes should be placed in a separate header file, with a smart pointer to a different class containing its protected and private parts and their implementation like so :
+```cpp
+// PublicAPI: Person.hpp
+
+class Person {
+public:
+    Person(Date birth);
+
+    int getAge() const;
+    
+private:
+    class Impl;
+    std::unique_ptr<Impl> m_pimpl;
+};
+```
+
+```cpp
+// Person.cpp
+#include "Person.hpp"
+
+class Person::Impl {
+public:
+    Impl(Date&& birth);
+    
+    int computeAge();
+
+public:
+    Date m_birth;
+}
+
+Person::Person(Date birth)
+    : m_pimpl { std::make_unique<Person::Impl>(std::move(birth)) }
+{}
+
+Person::getAge()
+{
+    return m_pimpl.computeAge();
+}
+
+Person::setAge(int newAge)
+{
+    m_age = newAge;
+}
+
+int Person::computeAge()
+{
+    ...
+}
+
+Person::Impl::Impl(Date&& birth)
+    : m_birth { birth }
+{}
+```
+
 pimpl, namespace (absolu/relatif).
 
-nodiscard (operator++/etc).
+All pure functions and suffix operators should be marked as `nodiscard`.
