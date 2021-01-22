@@ -533,6 +533,10 @@ Public part of public API's classes should be placed in a separate header file, 
 ```cpp
 // PublicAPI: Person.hpp
 
+namespace ::home {
+
+
+
 class Person {
 public:
     Person(Date birth);
@@ -541,13 +545,23 @@ public:
     
 private:
     class Impl;
-    std::unique_ptr<Impl> m_pimpl;
+    std::unique_ptr<::home::Person::Impl> m_pimpl;
 };
+
+
+
+} // namespace ::home
 ```
 
 ```cpp
 // Person.cpp
 #include "Person.hpp"
+
+
+
+// ============================================================== PimplClass
+
+namespace ::home {
 
 class Person::Impl {
 public:
@@ -558,6 +572,16 @@ public:
 public:
     Date m_birth;
 }
+
+
+
+Person::Impl::Impl(Date&& birth)
+    : m_birth { birth }
+{}
+
+
+
+// ============================================================== MainClass
 
 Person::Person(Date birth)
     : m_pimpl { std::make_unique<Person::Impl>(std::move(birth)) }
@@ -578,11 +602,13 @@ int Person::computeAge()
     ...
 }
 
-Person::Impl::Impl(Date&& birth)
-    : m_birth { birth }
-{}
+
+
+} // namespace ::home
 ```
 
-pimpl, namespace (absolu/relatif).
+Namespaces must always be absolute. (testing)
 
 All pure functions and suffix operators should be marked as `nodiscard`.
+
+// ============================================================== 
