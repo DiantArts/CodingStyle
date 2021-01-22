@@ -610,4 +610,4 @@ Namespaces must always be absolute. (testing)
 
 All pure functions and suffix operators should be marked as `nodiscard`.
 
-// ============================================================== 
+// ==============================================================
