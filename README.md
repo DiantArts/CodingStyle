@@ -348,6 +348,7 @@ class Foo {
     )
         -> TypeA;
 
+    // func description commentary
     virtual auto func(
         const std::string& key,
         const int value
@@ -428,13 +429,13 @@ static inline const typeName* const
 static constexpr/constinit auto var { 5 };
 ```
 
-No extra indentation withing namespaces must be placed.
-
-Avoid trailing white characters.
-
-Litteral suffixes in lower case:
+Always use lower case literal suffixes for all literals when directly possible :
 ```cpp
-float value { 5.0f };
+auto   float1  { 5.0f };
+auto   double1 { 5.0 };
+size_t size    { 0 };
+auto   str     { "hello i'm a str"s };
+auto   strView { "hello i'm a strView"sv };
 ```
 
 Hexadecimal letters must be upper case.
@@ -444,7 +445,11 @@ Do not place parentheses surrounding the return expression :
 return true;
 ```
 
-Line should be at most 110 characters long. Indentation must be 4 spaces length and not using tabs.
+Avoid trailing white characters.
+
+Indentation must done using tabs while allignement must be done using spaces.
+
+With a tab width of 4 spaces, a line should be at most 110 columns long.
 
 
 Not classed yet : Others
@@ -606,8 +611,8 @@ int ::home::Person::computeAge()
 
 ```
 
-Namespaces must always be absolute. (testing)
+Always use std types when possible. (`::std::size_t` over `::size_t`)
+
+Namespaces must always be absolute or relative to the current class. (testing)
 
 All pure functions and suffix operators should be marked as `nodiscard`.
-
-// ==============================================================
