@@ -406,7 +406,7 @@ for (auto i { 0 };
     rect1.top =< rect2.top &&
     (rect1.top =< rect2.top &&
         rect1.width >= rect2Middle) &&
-    rect2.width >= rect1Middle
+    rect2.width >= rect1Middle &&
     i < 10;
 ++i) {
     ...
