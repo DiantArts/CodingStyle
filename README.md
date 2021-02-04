@@ -345,26 +345,22 @@ class Foo {
     > static constexpr auto func(
         const std::string& key,
         const int value = 5
-    )
-        -> TypeA;
+    ) -> TypeA;
 
     // func description commentary
     virtual auto func(
         const std::string& key,
         const int value
-    )
-        -> int;
+    ) -> int;
 
     void setValue(
         int value
     );
 
     auto getValue(
-    ) const
-        -> int;
+    ) const -> int;
         
-    void printValue(
-    ) const;
+    void printValue() const;
 };
 
 template <
