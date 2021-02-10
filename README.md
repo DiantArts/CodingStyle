@@ -612,3 +612,5 @@ Always use std types when possible. (`::std::size_t` over `::size_t`)
 Namespaces must always be absolute or relative to the current class. (testing)
 
 All pure functions and suffix operators should be marked as `nodiscard`.
+
+Destructor always virtual pure inside abstract classes and intefaces
