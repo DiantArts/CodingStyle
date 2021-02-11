@@ -206,6 +206,9 @@ public:
 ### Inheritance
 Composition is often more appropriate than inheritance. Inheritance must be restricted to an **is a** or **is a kind of** utilisation.
 
+### Unused accessors
+Ununsed accessors must still be written.
+
 
 Control structures
 ----------------------
