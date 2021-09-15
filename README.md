@@ -648,3 +648,53 @@ Namespaces must always be relative to the current class and absolute if not poss
 Always use `[[ nodiscard ]]` when it makes sense.
 
 Destructor always virtual pure inside abstract classes and interfaces
+
+Avoid using run-time type information.
+
+Use the most accurate type of `int` like `::std::int8_t`
+
+Prefer inline functions, enums, and const variables over marocs.
+
+Use nullptr for pointers, and '\0'.
+
+Use return type deduction (for both functions and lambdas) only for small functions.
+
+Dont use class template arguement deduction.
+
+Use designated initializers only in their C++20-compliant form.
+```cpp
+    struct Point {
+        float x = 0.0;
+        float y = 0.0;
+        float z = 0.0;
+    };
+
+    Point p = {
+        .x = 1.0,
+        .y = 2.0,
+        // z will be 0.0
+    };
+```
+
+Use only approved libraries from the Boost library collection.
+
+Only use public aliases if it improves the code readability, and should be clearly documented.
+
+prefer build2 over other build systems, and use build2's guide lines
+
+names (trying):
+```cpp
+    bool bIsTrue; // ?
+    const bool cbIsTrue; // ?
+```
+
+dont use obvious comments.
+
+Comment non obvious function arguments :
+```cpp
+message.send(/*isImportant =*/ false);
+```
+
+use `TODO` comments.
+
+Dont use blank line when not necessary but seperate things to make it easy on the eyes to catch what goes with what.
