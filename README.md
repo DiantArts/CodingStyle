@@ -59,7 +59,7 @@ Types
 ### Choice
 The type choice should be match the variable utility.
 ```cpp
-size_t strLength { str.size() }; // size_t is used as it describe a size
+::std::size_t strLength{ str.size() }; // size_t is used as it describe a size
 ```
 
 ### auto
