@@ -269,7 +269,7 @@ If blocks should contain as less branches as possible as multiple branches harm 
 Switches conditional branching should be prefered over multiple if branches when possible. Implicit fallthrough should be avoided. [[ fallthrough ]] attribute stands for that case.
 
 ### Early returns
-If a conditional statmement can return, it should do so and no else must be used to use as less depth as possible. Also, Nested conditional braching with a depth of more than 3 should be avoid or splited into several functions.
+If a conditional statmement can return, it should do so and no else must be used to use as less depth as possible. Also, Nested conditional braching with a depth of more than 3 should be avoid or splited into several functions if possible.
 ```cpp
     if (...) {
         return true;
@@ -287,35 +287,36 @@ std::string& longestStr { str1.size() < str2.size() ? str1 : str2 };
 ### Goto
 Goto must not be used.
 
-Not classed yet : Libraries
-----------------------
-
-Libraries include filepaths must be relative to the includer and be indepandant.
 
 
 Not classed yet : Includes
 ----------------------
+
+Libraries include filepaths should always use the `<>` form.
+```cpp
+#include <LibName/FileName.hpp>
+```
 
 All external functionalities must be explicitly included and not rely on other headers to include them.
 An include from a header must not be useful to another one, but to itself.
 
 Includes must be useful. An useless one must be removed.
 
-Includes order: main related file (.hpp for .cpp), C++ standard library headers, C++ personal headers, C system headers, C personal headers. Every category must be separated by a blank line. Includes must be sorted by alphabetical order.
+Includes order: precompiled header, main related file (.hpp for .cpp), C++ standard library headers, C++ personal headers, C system headers, C personal headers. Every category must be separated by a blank line. Includes must be sorted by alphabetical order.
 
 
 
 Not classed yet : Headers
 ----------------------
-Every .cpp files should have an associated .hpp file.
+Every .cpp files should have an associated .hpp file except for main that should contain only the main, and maybe some error managment if needed.
 
-Includes guards must be used over #pragma once. The name format must be `INCLUDE_GUARD_<PROJECT_NAME>_<PATH_FROM_ROOT_DIR>_<EXTENTION>`.
+Always use `#pragma once`. For compatibility issues, use `#pragma once` AND Includes guards. The name format must be `INCLUDE_GUARD_<PATH_FROM_ROOT_DIR>_<EXTENTION>`.
 Also, the endif must be followed by the name of the define.
 ```cpp
-#ifndef INCLUDE_GUARD_LIGHT_SOURCES_HEADER_HPP
-#define INCLUDE_GUARD_LIGHT_SOURCES_HEADER_HPP
+#ifndef INCLUDE_GUARD_LIGHTLIB_HEADER_HPP
+#define INCLUDE_GUARD_LIGHTLIB_HEADER_HPP
 ...
-#endif // INCLUDE_GUARD_LIGHT_SOURCES_HEADER_HPP
+#endif // INCLUDE_GUARD_LIGHTLIB_HEADER_HPP
 ```
 
 Every header files should be self-contained and compilable.
@@ -323,6 +324,8 @@ Every header files should be self-contained and compilable.
 In headers, use forward declaration as much as you can.
 
 Inline functions for no reason should be avoided.
+
+`template` and `constexpr` functions should be declared in the `FileName.hpp` and the actual function must be placed in a `FileName.impl.hpp` that is included at the end of the `FileName.hpp` file.
 
 In cpp, C++ standard library headers must be prefered over C system headers, like `cstdio` over `stdio.h`.
 
