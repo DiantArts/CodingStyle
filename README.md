@@ -105,7 +105,7 @@ namespace space { class Chair; }
 
 
 
-namespace space { // OK
+namespace space {
 
 
 
@@ -122,13 +122,16 @@ namespace space { // OK
 } // namespace space
 ```
 
-Always placing code in namespace.
+Always place code in namespace.
 
-Never `using namespace` in the global scope and prefer `using` over `using namespace`, always in the smallest scope possible.
+Never use `using namespace` in the global scope and prefer `using` over `using namespace`, always in the smallest scope possible.
 
-Avoid namespace aliases in header files.
+Avoid namespace aliases in header files except for common aliases like :
+```cpp
+using::std::string_literals::operator""s;
+```
 
-Do not include inside namespaces.
+Never include inside namespaces.
 
 Use the namespace detail for internal details that are not visible in the public interface and that should be ignored by external users.
 
