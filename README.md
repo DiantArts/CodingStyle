@@ -154,25 +154,40 @@ A structure should be use only for **passive objects** that carry public data, w
 Classes' and Structures' names must follow the **PascalCase** convention.
 
 ### Single Responsibility Principle (SRP)
-The code should be organised as classes and structures represents only **one object** and doesn't mix different levels of abstraction.
+The code should be organised as classes and structures represent only **one object** and should't mix different levels of abstraction.
 Moreover, everyhing that can **should be represented as objects**. For exemple, a fonctionnality shouldn't be managed in multiple files. A specific class should be done.
 
 ### Encapsulation
 All attributes must be private.
-Getters and setters must always be used.
+Getters and setters must always be used and be named as follow :
+```cpp
+    auto getSize() cont
+        -> ::std::size_t
+    {
+        return m_size;
+    }
+```
 
 ### Methods order
-Methods should be ordered as follows: constructors, destructors, assignement operators, then grouped by meaning.
+Methods should be ordered as follows: constructors, destructors, copy idiom, move idiom, assignement operators, then grouped by meaning.
 
 ### Access specifier
 Access specifiers must be as indented as the class keyword and be declared as the following order: public then protected then private
 ```cpp
 namespace detail { Person }
 
+
+
 class Person {
+
 public:
-protected:
-    std::unique_ptr<detail::Person> m_PersonDetail;
+
+...
+
+private:
+
+    ::std::unique_ptr<::detail::Person> m_pimpl;
+    
 };
 ```
 
@@ -180,27 +195,39 @@ Access specifiers must be used to seperate variables from methods
 ```cpp
 struct StructName {
 
-    int age;
+    ::std::int8_t age;
     
 };
 ```
 
 ```cpp
 class ClassName {
-public:
-    explicit ClassName(TypeName variableName);
-    ~ClassName() = default;
 
 public:
-    static constexpr size_t lifeExpectancy { 79 };
+
+    explicit ClassName(
+        TypeName variableName
+    );
+    
+    ~ClassName();
+
+
+
+public:
+
+    static inline constexpr TypeName1 publicVariableName{ 0 };
 
 
 
 private:
     void privateMethod() const;
 
+
+
 private:
-    TypeName m_variableName;
+
+    TypeName m_privateMemberName;
+    
 };
 ```
 
@@ -208,11 +235,20 @@ private:
 Constructors **must not allow implicit conversions** by default. The usage of explicit keyword is required for constructors and conversion operators.
 ```cpp
 class ImaginaryNumber {
+
 public:
-    explicit ImaginaryNumber(int reelPart, int imaginaryPart);
+
+    explicit ImaginaryNumber(
+        int reelPart,
+        int imaginaryPart
+    );
+    
 ...
+
     explicit operator int() const;
+    
 ...
+
 };
 ```
 
@@ -220,7 +256,7 @@ public:
 Composition is often more appropriate than inheritance. Inheritance must be restricted to an **is a** or **is a kind of** utilisation.
 
 ### Unused accessors
-Ununsed accessors must still be written.
+Ununsed accessors must not be written.
 
 
 Control structures
