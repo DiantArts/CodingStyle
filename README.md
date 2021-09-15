@@ -333,7 +333,7 @@ In cpp, C++ standard library headers must be prefered over C system headers, lik
 Not classed yet : Modules
 ----------------------
 
-Every module files must stand as .cppm.
+Every module files must stand as `.mpp`.
 
 
 Not classed yet : Variable
@@ -345,14 +345,14 @@ Do not declare an unused variable and declare it as close to its first utilisati
 
 Explicit constructor call must be used to initialize a variable, using brackets :
 ```cpp
-size_t size { 0 };
+::std::size_t size{ 0 };
 ```
 
 If the variable is an object, do not call its constructor every time it enters the scope
 ```cpp
 Foo f;
-for (auto i { 0 }; i < 100; ++i) {
-    f.DoSomething(i);
+for (auto i{ 0 }; i < 100; ++i) {
+    f.doSomething(i);
 }
 ```
 
