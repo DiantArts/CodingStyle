@@ -366,7 +366,7 @@ Avoid virtual methods when no reasons.
 
 overload operators only if their meaning is obvious and consistent with the built-in operators. For example, `|` operator stands for bitwise- or logical-or, not shell-style pipe.
 
-Data members should be defined as `private` unless they are constants.
+Data members must be defined as `private` unless they are constants.
 
 
 Not classed yet : Function
@@ -380,11 +380,13 @@ Always prefer small functions, and split long functions if it does not harm the 
 
 Do not overload functions if it modifies its logic.
 
+Always use the trailing return time as it is way more readable when got use to it
+
 
 Not classed yet : C++20
 ----------------------
 
-Use `std::string_view` and `std::span` over const references.
+Use `::std::string_view` and `::std::span` over const references.
 
 Use 3-way comparison as much as possible.
 
@@ -395,36 +397,69 @@ Not classed yet : Format
 Prototypes of functions always break lines for everything :
 ```cpp
 class Foo {
+
+public:
+
+    struct Bar {
+    ...
+    };
+
+public:
+
+    // ------------------------------------------------------------------ section1Name
+
     template <
         typename TypeA
-    > static constexpr auto func(
+    > static constexpr auto func1Name(
         const std::string& key,
         const int value = 5
     ) -> TypeA;
 
     // func description commentary
-    virtual auto func(
+    virtual auto func2Name(
         const std::string& key,
         const int value
     ) -> int;
+
+    // func description commentary
+    template <
+        typename TypeA
+    > virtual auto func3Name(
+        const std::string& key,
+        auto&&... varArgs
+    ) -> const Foo::Bar&;
+
+
+
+    // ------------------------------------------------------------------ section2Name
 
     void setValue(
         int value
     );
 
     auto getValue(
-    ) const -> int;
+    ) const
+        -> int;
         
     void printValue() const;
+    
+    
+    
+private:
+
+    ::namespace::VarType m_varName{ 0 };
+    
+    Foo::Bar m_bar;
+    
 };
 
 template <
     TypeA
 > auto Foo::func(
     const std::string& key,
-    const int value
+    const TypeA& value
 )
-    -> TypeA
+    -> int
 {
     return 1;
 }
@@ -432,11 +467,16 @@ template <
 
 < insert explanation > (Always place brackets)
 ```cpp
-if (auto i { 0 };
+if (auto i{ 0 };
     rect1.top =< rect2.top &&
     (rect1.top =< rect2.top &&
         rect1.width >= rect2Middle) &&
     rect2.width >= rect1Middle
+) else (
+    rect1.top > rect2.top &&
+    (rect1.top > rect2.top &&
+        rect1.width < rect2Middle) &&
+    rect2.width < rect1Middle
 ) {
     ...
 }
@@ -454,7 +494,7 @@ while (
     ...
 }
 
-for (auto i { 0 };
+for (auto i{ 0 };
     rect1.top =< rect2.top &&
     (rect1.top =< rect2.top &&
         rect1.width >= rect2Middle) &&
@@ -464,7 +504,7 @@ for (auto i { 0 };
     ...
 }
 
-    const auto tmpvar {
+    const auto tmpvar{
         anotherWtfLongFunc(str1.size()) -
         anotherWtfLongFunc(str2.size())
     };
@@ -477,16 +517,16 @@ for (auto i { 0 };
 
 ```cpp
 static inline const typeName* const
-static constexpr/constinit auto var { 5 };
+static constexpr/constinit auto var{ 5 };
 ```
 
 Always use lower case literal suffixes for all literals when directly possible :
 ```cpp
-auto   float1  { 5.0f };
-auto   double1 { 5.0 };
-size_t size    { 0 };
-auto   str     { "hello i'm a str"s };
-auto   strView { "hello i'm a strView"sv };
+auto float1{ 5.0f };
+auto double1{ 5.0 };
+::std::size_t size{ 0 };
+auto str{ "hello i'm a str"s };
+auto strView{ "hello i'm a strView"sv };
 ```
 
 Hexadecimal letters must be upper case.
@@ -506,13 +546,13 @@ With a tab width of 4 spaces, a line should be at most 110 columns long.
 Not classed yet : Others
 ----------------------
 
-Always use override when overriding. Moreover, always redeclare pure virtual methods of parent classes. 
+Always use `override` when overriding. Moreover, always redeclare pure virtual methods of parent classes. 
 
 Use friend only when it improves readability or simplifies the code.
 
 Use noexcept only on useful cases.
 
-Prefer C++ style cast over any other cast formats. Always prefer static_cast. When using dynamic_cast, just think again. Avoid const_cast and reinterpret_cast.
+Prefer C++ style cast over any other cast formats. Always prefer `static_cast`. When using `dynamic_cast`, just think again. Avoid never use `const_cast` and avoid reinterpret_cast.
 
 Prefer prefix form of increment and decrement operators.
 
@@ -530,15 +570,13 @@ void Foo::doSomething(const int value)
 }
 ```
 
-Never use `constexpr` and `consteval` functions on public APIs.
-
 Use macro only when absolutely needed.
 
 Always avoid unbounded recursions.
 
 Prefer iteration over recursion.
 
-Never use `NULL` and `char(0)`.
+Never use `NULL` and `char(0)`, use nullptr instead.
 
 Always prefer `sizeof var` over `sizeof(type)`.
 Place parenthesis around `sizeof(type)` but not around `sizeof var`.
@@ -552,9 +590,9 @@ for (auto& [key, value] : map) {
 }
 ```
 
-Use `this->` for methods but not for member variables.
+Use `this->` for methods and public variables but not for member variables.
 
-Avoid std::function when possible.
+Avoid ::std::function when possible.
 
 Filename and classname for interfaces and abstracts classes must be as follows :
 ```cpp
@@ -564,15 +602,34 @@ class AClassName; // abstracts
 
 Always init variables inside the class decleration instead of inside the constructor member initializer list.
 
-Never use `= default` in header files.
+Never use `= default` in header files, use it in the cpp file.
 
-Always use canonical form of classes:
+Always use canonical form of classes when the copy or move idiom is required:
 ```cpp
 class ClassName {
-    ClassName(const ClassName&);
-    ClassName(ClassName&&);
-    ClassName& operator=(const ClassName&);
-    ClassName& operator=(ClassName&&);
+
+    // ------------------------------------------------------------------ copy
+
+    ClassName(
+        const ClassName&
+    );
+    
+    auto operator=(
+        const ClassName&
+    ) -> ClassName&;
+    
+    
+    
+    
+    // ------------------------------------------------------------------ move
+    
+    ClassName(
+        ClassName&&
+    );
+    
+    auto operator=(
+        ClassName&&
+    ) -> ClassName&;
 }
 ```
 
@@ -581,91 +638,13 @@ Use `final` where it makes sense.
 Headers format :
 ```cpp
 // <ProjectName>
-// <Filepath>
 // <Description>
-```
-
-Public part of public API's classes should be placed in a separate header file, with a smart pointer to a different class containing its protected and private parts and their implementation like so :
-```cpp
-// PublicAPI: Person.hpp
-
-namespace ::home {
-
-
-
-class Person {
-public:
-    Person(Date birth);
-
-    int getAge() const;
-    
-private:
-    class Impl;
-    std::unique_ptr<::home::Person::Impl> m_pimpl;
-};
-
-
-
-} // namespace ::home
-```
-
-```cpp
-// Person.cpp
-#include "Person.hpp"
-
-
-
-// ============================================================== PimplClass
-
-namespace ::home {
-
-class Person::Impl {
-public:
-    Impl(Date&& birth);
-    
-    int computeAge();
-
-public:
-    Date m_birth;
-}
-
-} // namespace ::home
-
-
-
-::home::Person::Impl::Impl(Date&& birth)
-    : m_birth { birth }
-{}
-
-
-
-// ============================================================== MainClass
-
-::home::Person::Person(Date birth)
-    : m_pimpl { std::make_unique<Person::Impl>(std::move(birth)) }
-{}
-
-int ::home::Person::getAge()
-{
-    return m_pimpl.computeAge();
-}
-
-void ::home::Person::setAge(int newAge)
-{
-    m_age = newAge;
-}
-
-int ::home::Person::computeAge()
-{
-    ...
-}
-
 ```
 
 Always use std types when possible. (`::std::size_t` over `::size_t`)
 
-Namespaces must always be absolute or relative to the current class. (testing)
+Namespaces must always be relative to the current class and absolute if not possible
 
-All pure functions, getters and suffix operators should be marked as `nodiscard`.
+Always use `[[ nodiscard ]]` when it makes sense.
 
 Destructor always virtual pure inside abstract classes and interfaces
