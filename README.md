@@ -16,13 +16,13 @@ Variables
 ### Common
 Every variable must have their name fully explaning their roles but should **not contain verbs**.
 ```cpp
-size_t oldStrSize;
+::std::size_t oldStrSize;
 ```
 
 Their utility must **not be ambiguous** but shouldn't damage the code clarity. Therefore, if the name isn't enough to fully explain their role, or if would be too long, they must be preceded by a comment bringing further explainations.
 ```cpp
 // file that is supposed to contain informations about people that the user is connected to
-std::ifstream userInformationsFile;
+::std::ifstream userInformationsFile;
 ```
 
 ### Global variables
@@ -32,9 +32,9 @@ bool g_isGameRunning;
 ```
 
 ### Non-member and public member Variables
-The Name of Non-member or Public member variables must follow the **camelCase** convention.
+The Name of Non-member, Public member or static member variables must follow the **camelCase** convention.
 ```cpp
-size_t oldStrSize;
+::std::size_t oldStrSize;
 ```
 
 ### Private/Protected member variables
@@ -44,9 +44,11 @@ size_t m_size;
 ```
 
 ### Unused parameters
-Unused variables shouldn't have a name.
+Unused variables should have their name commented.
 ```cpp
-void func(int)
+void func(
+    ::std::size_t /* strSize */
+)
 {}
 ```
 
