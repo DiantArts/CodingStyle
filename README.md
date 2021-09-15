@@ -47,7 +47,7 @@ size_t m_size;
 Unused variables should have their name commented.
 ```cpp
 void func(
-    ::std::size_t /* strSize */
+    const ::std::size_t /* strSize */
 )
 {}
 ```
@@ -67,7 +67,7 @@ auto should be used as much as possible as it simplify the readability of the co
 
 ### constness
 Every const variables must be specified as so. Constexpr should be used as much as possible. When constexpr cannot be applied, const must be used instead.
-Remove const qualifier when possible in function declerations.
+Remove const qualifiers in function declerations when possible.
 
 ### References
 Order of choice
@@ -82,11 +82,11 @@ std::referencer_wrapper<const TypeName> constReference;
 ```
 
 ### Pointers
-smart pointers: Polymorphism, C libraries usage or usage of big objects that need to be on the heap.
-raw pointers: Never use.
+Use smart pointers for polymorphism, C libraries usage or usage of big objects that need to be on the heap.
+Never use raw pointers.
 
 ### Custom deleter of smart pointers
-Prefer custom deleter over manual destruction.
+Always prefer custom deleter over manual destruction.
 
 ### Parameters
 When needed, use mutable references. Otherwise, always copy basic types and always pass objects by const references.
@@ -99,18 +99,26 @@ Namespaces
 ----------------------
 
 ### Naming convention
-Namespaces' names must follow the **camelCase** convention and should mostly be singular. Multiline namespaces must also be closed by a brace followed by a commentary of the closing namespace. The default regular expression must be `^[a-z][a-z_0-9]*$`
+Namespaces' names must follow the **camelCase** convention and should be singular. Multiline namespaces must also be closed by a brace followed by a commentary of the closing namespace. The default regular expression must be `^[a-z][a-z_0-9]*$`
 ```cpp
 namespace space { class Chair; }
 
+
+
 namespace space { // OK
+
+
+
     class Table {
+    
     private:
+    
         Chair& chair;
+        
     };
-    class Chair {
-        ...
-    };
+    
+    
+    
 } // namespace space
 ```
 
