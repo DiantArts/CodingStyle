@@ -440,7 +440,13 @@ public:
     auto getValue(
     ) const
         -> int;
-        
+    
+
+
+private:
+
+    // ------------------------------------------------------------------ section2Name (same section but seperated by access specifier)
+    
     void printValue() const;
     
     
