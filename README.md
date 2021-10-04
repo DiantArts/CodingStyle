@@ -410,22 +410,33 @@ public:
 
     template <
         typename TypeA
-    > static constexpr auto func1Name(
-        const std::string& key,
+    > static constexpr [[ nodiscard ]] auto func1Name(
+        const ::std::string& key,
         const int value = 5
-    ) -> TypeA;
+    ) const
+        -> constTypeA&;
 
     // func description commentary
     virtual auto func2Name(
-        const std::string& key,
+        const ::std::string& key,
         const int value
-    ) -> int;
+    ) -> int
+        override;
+        
+    // func description commentary
+    virtual auto func3Name(
+        concept auto& var,
+        const ::std::string& key,
+        const int value
+    ) const
+        -> int
+        = 0;
 
     // func description commentary
     template <
         typename TypeA
-    > virtual auto func3Name(
-        const std::string& key,
+    > virtual auto func4Name(
+        const ::std::string& key,
         auto&&... varArgs
     ) -> const Foo::Bar&;
 
@@ -437,15 +448,14 @@ public:
         int value
     );
 
-    auto getValue(
-    ) const
+    auto getValue() const
         -> int;
     
 
 
 private:
 
-    // ------------------------------------------------------------------ section2Name (same section but seperated by access specifier)
+    // ------------------------------------------------------------------ section2Name (same section but seperated by an access specifier)
     
     void printValue() const;
     
@@ -651,7 +661,7 @@ Always use std types when possible. (`::std::size_t` over `::size_t`)
 
 Namespaces must always be relative to the current class and absolute if not possible
 
-Always use `[[ nodiscard ]]` when it makes sense.
+Always use `[[ nodiscard ]]` in the function decleration when it makes sense but not in the expression when seperated.
 
 Destructor always virtual pure inside abstract classes and interfaces
 
