@@ -698,3 +698,29 @@ Child class fields should not shadow parent class fields
 `::std::source_location` should be used instead of `__FILE__`, `__LINE__`, and `__func__` macros
 
 `::std::jthread` should be used instead of `::std::thread`
+
+`auto` should be used for non-type template parameters
+```cpp
+template <
+    auto func
+> call()
+{
+    func();
+}
+```
+
+`as_const`  should be used instead of `const_cast`
+
+`::std::move` should be used on rvalue references.
+
+use `::std::bit_cast` instead of `reinterpret_cast`.
+
+Digit seperators should be used
+```cpp
+long decimal_int_value{ 5'543'124 };
+```
+
+Constants should come first in equality tests.
+```cpp
+if (constant == var)
+```
