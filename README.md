@@ -12,7 +12,7 @@ Variables
 ----------------------
 
 ### Common
-Every variable must have their name fully explaning their roles but should **not contain verbs**.
+Every variable must have their name fully explaning their roles and should **not contain verbs**.
 ```cpp
 ::std::size_t oldStrSize;
 ```
@@ -38,7 +38,7 @@ The Name of Non-member, Public member or static member variables must follow the
 ### Private/Protected member variables
 The Name of member variables must follow the **camelCase** convention preceded by **m_** to explicitly separate them from methods' arguments.
 ```cpp
-size_t m_size;
+::std::size_t m_size;
 ```
 
 ### Unused parameters
@@ -57,40 +57,50 @@ Types
 ### Choice
 The type choice should be match the variable utility.
 ```cpp
-::std::size_t strLength{ str.size() }; // size_t is used as it describe a size
+::std::size_t strLength{ str.size() }; // size_t is used as it describes a size
 ```
-
 ### auto
 auto should be used as much as possible as it simplify the readability of the code.
 
 ### constness
-Every const variables must be specified as so. Constexpr should be used as much as possible. When constexpr cannot be applied, const must be used instead.
-Remove const qualifiers in function declerations when possible.
+Every const variables must be specified as so, except for class members (which are forbiden to be const). Constexpr should be used as much as possible. When constexpr cannot be applied, constinit, consteval and const must be concider instead.
+Remove const qualifiers in function declerations when possible, but not in function declerations.
 
-### References
-Order of choice
-Const reference: Use to avoid copy or as observer.
-Reference: Refers to a not owned thing that will be modified.
-Reference wrapper: A copyable and assignable reference.
-
-### Const reference wrapper
-Use reference wrapper of const type when possible :
 ```cpp
-std::referencer_wrapper<const TypeName> constReference;
+class Foo {
+    void bar(
+        int arg
+    );
+}
+
+void Foo::bar(
+    const int arg
+)
+{}
 ```
 
 ### Pointers
 Use smart pointers for polymorphism, C libraries usage or usage of big objects that need to be on the heap.
 Never use raw pointers.
-
-### Custom deleter of smart pointers
 Always prefer custom deleter over manual destruction.
 
 ### Parameters
+Order of choice
+Const reference: Use to avoid copy or as observer.
+Mutable Reference: Refers to a not owned thing that will be modified.
+Reference wrapper: A copyable and assignable reference.
+Use reference wrapper of const type when possible :
+```cpp
+::std::referencer_wrapper<const TypeName> constReference;
+```
 When needed, use mutable references. Otherwise, always copy basic types and always pass objects by const references.
 
-### Copy and move idiom 
-When always constructing a type, always take the parameter as copy and move it in the member variable.
+### lvale + rvalue overload
+When a type is going to get constructed anyway, avoid doing a lvalue + rvalue overload, take the parameter as copy and move it instead.
+
+### Moving over copying
+Always prefer moving than copying.
+
 
 
 Namespaces
@@ -108,11 +118,7 @@ namespace space {
 
 
     class Table {
-    
-    private:
-    
-        Chair& chair;
-        
+    ...        
     };
     
     
@@ -120,25 +126,18 @@ namespace space {
 } // namespace space
 ```
 
+### Basic rules
 Always place code in namespace.
-
 Never use `using namespace` in the global scope and prefer `using` over `using namespace`, always in the smallest scope possible.
-
 Avoid namespace aliases in header files except for common aliases like :
 ```cpp
 using::std::string_literals::operator""s;
 ```
-
 Never include inside namespaces.
-
-Use the namespace detail for internal details that are not visible in the public interface and that should be ignored by external users.
-
+Use the namespace `detail` for internal details that are not visible in the public interface and that should be ignored by external users.
 Never declare anything inside namespace `std`.
-
 Unnamed namespaces must be prefered over static functions and variables.
-
 Place variables and functions inside namespaces rather than inside a class they aren't related to or a simple class that only stands for it if it doesn't make sense.
-
 Namespaces shouldn't add indentations.
 
 
@@ -146,7 +145,14 @@ Structures and Classes
 ----------------------
 
 ### Structures vs Classes
-A structure should be use only for **passive objects** that carry public data, which means that access specifiers are not allowed. Furthermore, data fields must not imply relationship between other fields. Finaly, only constructors, destructors and operators should be present.
+A structure should be use only for **passive objects** that carry public data, which means that access specifiers are not allowed. Furthermore, data fields must not imply relationship between other fields. Therefor, only constructors, destructors and operators should be present.
+```cpp
+struct StructName {
+
+    ::std::int8_t age;
+
+};
+```
 
 ### Naming convention
 Classes' and Structures' names must follow the **PascalCase** convention.
@@ -159,7 +165,7 @@ Moreover, everyhing that can **should be represented as objects**. For exemple, 
 All attributes must be private.
 Getters and setters must always be used and be named as follow :
 ```cpp
-    auto getSize() cont
+    [[ nodiscard ]] auto getSize() cont
         -> ::std::size_t
     {
         return m_size;
@@ -169,8 +175,11 @@ Getters and setters must always be used and be named as follow :
 ### Methods order
 Methods should be ordered as follows: constructors, destructors, copy idiom, move idiom, assignement operators, then grouped by meaning.
 
+### Rule of 0 and rule of 5
+Avoid specifying any of the special member functions. If 1 is specified, then specify them all.
+
 ### Access specifier
-Access specifiers must be as indented as the class keyword and be declared as the following order: public then protected then private
+Access specifiers must be as indented like the class keyword and be declared as the following order: public then protected then private
 ```cpp
 namespace detail { Person }
 
@@ -190,13 +199,6 @@ private:
 ```
 
 Access specifiers must be used to seperate variables from methods
-```cpp
-struct StructName {
-
-    ::std::int8_t age;
-    
-};
-```
 
 ```cpp
 class ClassName {
@@ -206,8 +208,6 @@ public:
     explicit ClassName(
         TypeName variableName
     );
-    
-    ~ClassName();
 
 
 
@@ -257,6 +257,7 @@ Composition is often more appropriate than inheritance. Inheritance must be rest
 Ununsed accessors must not be written.
 
 
+
 Control structures
 ----------------------
 
@@ -264,7 +265,7 @@ Control structures
 If blocks should contain as less branches as possible as multiple branches harm the code clarity.
 
 ### Switch conditional branching
-Switches conditional branching should be prefered over multiple if branches when possible. Implicit fallthrough should be avoided. [[ fallthrough ]] attribute stands for that case.
+Switches conditional branching should be prefered over multiple if branches when possible. Implicit fallthrough should be avoided. `[[ fallthrough ]]` attribute stands for that case.
 
 ### Early returns
 If a conditional statmement can return, it should do so and no else must be used to use as less depth as possible. Also, Nested conditional braching with a depth of more than 3 should be avoid or splited into several functions if possible.
@@ -283,7 +284,7 @@ std::string& longestStr { str1.size() < str2.size() ? str1 : str2 };
 ```
 
 ### Goto
-Goto must not be used.
+Goto should be avoided, or always use to jump later in the function. It can be use to do multiple breaks.
 
 
 
@@ -323,9 +324,9 @@ In headers, use forward declaration as much as you can.
 
 Inline functions for no reason should be avoided.
 
-`template` and `constexpr` functions should be declared in the `FileName.hpp` and the actual function must be placed in a `FileName.impl.hpp` that is included at the end of the `FileName.hpp` file.
+`template` and `constexpr` functions should be declared in the `FileName.hpp` and the actual function must be placed in the `FileName.impl.hpp` that is included at the end of the `FileName.hpp` file.
 
-In cpp, C++ standard library headers must be prefered over C system headers, like `cstdio` over `stdio.h`.
+C++ standard library headers must be prefered over C system headers, like `cstring` over `string.h`.
 
 
 Not classed yet : Modules
@@ -402,22 +403,24 @@ public:
     ...
     };
 
+
+
 public:
 
     // ------------------------------------------------------------------ section1Name
 
     template <
         typename TypeA
-    > static constexpr [[ nodiscard ]] auto func1Name(
+    > [[ nodiscard ]] static constexpr auto func1Name(
         const ::std::string& key,
-        const int value = 5
+        int value = 5 // const in the decleration
     ) const
         -> constTypeA&;
 
     // func description commentary
     virtual auto func2Name(
         const ::std::string& key,
-        const int value
+        int value // const in the decleration
     ) -> int
         override;
         
@@ -425,15 +428,13 @@ public:
     virtual auto func3Name(
         concept auto& var,
         const ::std::string& key,
-        const int value
+        int value // const in the decleration
     ) const
         -> int
         = 0;
 
     // func description commentary
-    template <
-        typename TypeA
-    > virtual auto func4Name(
+    auto func4Name(
         const ::std::string& key,
         auto&&... varArgs
     ) -> const Foo::Bar&;
@@ -446,7 +447,7 @@ public:
         int value
     );
 
-    auto getValue() const
+    [[ nodiscard ]] auto getValue() const
         -> int;
     
 
@@ -472,8 +473,7 @@ template <
 > auto Foo::func(
     const std::string& key,
     const TypeA& value
-)
-    -> int
+) -> int
 {
     return 1;
 }
@@ -482,8 +482,8 @@ template <
 < insert explanation > (Always place brackets)
 ```cpp
 if (auto i{ 0 };
-    rect1.top =< rect2.top &&
-    (rect1.top =< rect2.top &&
+    rect1.top <= rect2.top &&
+    (rect1.top <= rect2.top &&
         rect1.width >= rect2Middle) &&
     rect2.width >= rect1Middle
 ) else (
@@ -495,13 +495,13 @@ if (auto i{ 0 };
     ...
 }
 
-if (rect1.top =< rect2.top) {
+if (rect1.top <= rect2.top) {
     ...
 }
 
 while (
-    rect1.top =< rect2.top &&
-    (rect1.top =< rect2.top &&
+    rect1.top <= rect2.top &&
+    (rect1.top <= rect2.top &&
         rect1.width >= rect2Middle) &&
     rect2.width >= rect1Middle
 ) {
@@ -509,8 +509,8 @@ while (
 }
 
 for (auto i{ 0 };
-    rect1.top =< rect2.top &&
-    (rect1.top =< rect2.top &&
+    rect1.top <= rect2.top &&
+    (rect1.top <= rect2.top &&
         rect1.width >= rect2Middle) &&
     rect2.width >= rect1Middle &&
     i < 10;
@@ -522,11 +522,12 @@ for (auto i{ 0 };
         anotherWtfLongFunc(str1.size()) -
         anotherWtfLongFunc(str2.size())
     };
-    auto var2 {
+    auto var2{
         func(1),
         func(2) + tmpvar,
         func(3)
     };
+    auto var3{ func(1), func(3) };
 ```
 
 ```cpp
@@ -544,6 +545,8 @@ auto strView{ "hello i'm a strView"sv };
 ```
 
 Hexadecimal letters must be upper case.
+```cpp
+int hexNum{ 0xAF3B };
 
 Do not place parentheses surrounding the return expression :
 ```cpp
@@ -560,35 +563,20 @@ With a tab width of 4 spaces, a line should be at most 110 columns long.
 Not classed yet : Others
 ----------------------
 
-Always use `override` when overriding. Moreover, always redeclare pure virtual methods of parent classes. 
+Always use `override` when overriding. Moreover, always redeclare pure virtual methods of parent classes. Classes destructor must be pure virtual if the class has a
+member pure virtual.
 
 Use friend only when it improves readability or simplifies the code.
 
-Use noexcept only on useful cases.
+Use noexcept only on useful cases (like destructors and copy/move idioms.
 
-Prefer C++ style cast over any other cast formats. Always prefer `static_cast`. When using `dynamic_cast`, just think again. Avoid never use `const_cast` and avoid reinterpret_cast.
+Prefer C++ style cast over any other cast formats. Always prefer `static_cast`. When using `dynamic_cast`, just think again. Never use `const_cast` and avoid reinterpret_cast.
 
 Prefer prefix form of increment and decrement operators.
 
-Use constexpr as much as possible, and use const if constexpr isn't possible. Do not place const when it doesn't change anything. For example:
-```cpp
-// Foo.hpp
-class Foo {
-    void doSomething(int value);
-};
-
-// Foo.cpp
-void Foo::doSomething(const int value)
-{
-...
-}
-```
-
 Use macro only when absolutely needed.
 
-Always avoid unbounded recursions.
-
-Prefer iteration over recursion.
+Always avoid unbounded recursions. Prefer iteration over recursion.
 
 Never use `NULL` and `char(0)`, use nullptr instead.
 
@@ -597,6 +585,8 @@ Place parenthesis around `sizeof(type)` but not around `sizeof var`.
 
 Prefer `typename` over `class` when defining template.
 
+Prefer constraint auto over templates.
+
 Prefer binding structure syntax for range-based loop :
 ```cpp
 std::map<int, int> map;
@@ -604,7 +594,7 @@ for (auto& [key, value] : map) {
 }
 ```
 
-Use `this->` for methods and public variables but not for member variables.
+Use `this->` for everything that does not start with `m_`.
 
 Avoid ::std::function when possible.
 
@@ -618,50 +608,13 @@ Always init variables inside the class decleration instead of inside the constru
 
 Never use `= default` in header files, use it in the cpp file.
 
-Always use canonical form of classes when the copy or move idiom is required:
-```cpp
-class ClassName {
-
-    // ------------------------------------------------------------------ copy
-
-    ClassName(
-        const ClassName&
-    );
-    
-    auto operator=(
-        const ClassName&
-    ) -> ClassName&;
-    
-    
-    
-    
-    // ------------------------------------------------------------------ move
-    
-    ClassName(
-        ClassName&&
-    );
-    
-    auto operator=(
-        ClassName&&
-    ) -> ClassName&;
-}
-```
-
 Use `final` where it makes sense.
-
-Headers format :
-```cpp
-// <ProjectName>
-// <Description>
-```
 
 Always use std types when possible. (`::std::size_t` over `::size_t`)
 
 Namespaces must always be relative to the current class and absolute if not possible
 
 Always use `[[ nodiscard ]]` in the function decleration when it makes sense but not in the expression when seperated.
-
-Destructor always virtual pure inside abstract classes and interfaces
 
 Avoid using run-time type information.
 
@@ -678,14 +631,14 @@ Dont use class template arguement deduction.
 Use designated initializers only in their C++20-compliant form.
 ```cpp
     struct Point {
-        float x = 0.0;
-        float y = 0.0;
-        float z = 0.0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
     };
 
     Point p = {
-        .x = 1.0,
-        .y = 2.0,
+        .x = 1.0f,
+        .y = 2.0f
         // z will be 0.0
     };
 ```
@@ -695,12 +648,6 @@ Use only approved libraries from the Boost library collection.
 Only use public aliases if it improves the code readability, and should be clearly documented.
 
 prefer build2 over other build systems, and use build2's guide lines
-
-names (trying):
-```cpp
-    bool bIsTrue; // ?
-    const bool cbIsTrue; // ?
-```
 
 dont use obvious comments.
 
@@ -712,3 +659,18 @@ message.send(/*isImportant =*/ false);
 use `TODO` comments.
 
 Dont use blank line when not necessary but seperate things to make it easy on the eyes to catch what goes with what.
+
+OTHERS
+----------------------
+
+### Avoid `memset` to delete sensitive data
+use memset_s instead.
+
+### ::std::scoped_lock
+Should be created with constructor arguments.
+
+### Object slice
+Objects should not be sliced, instead, use polymorphism and smart pointers.
+
+### Mutexes
+Should be unlocked in the reverse order they were locked
