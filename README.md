@@ -5,9 +5,7 @@ This Coding Style is an attempt to list every programming conventions that we've
 
 This Coding style is purely oriented toward readability and explicitness and is therefore strict and painful to put into practice.
 
-Therefore, this coding style isn't written to explain why rules stands like so, but just list them.
-
-Exceptions ...
+This coding style isn't written to explain why rules stands like so, but just list them.
 
 
 Variables
