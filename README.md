@@ -284,7 +284,7 @@ std::string& longestStr { str1.size() < str2.size() ? str1 : str2 };
 ```
 
 ### Goto
-Goto should be avoided, or always use to jump later in the function. It can be use to do multiple breaks.
+Goto should be avoided, or always use to jump later in the function. It can be use to do multiple breaks but shouldn't be used to jump into blocks.
 
 
 
@@ -415,13 +415,13 @@ public:
         const ::std::string& key,
         int value = 5 // const in the decleration
     ) const
-        -> constTypeA&;
+        && -> constTypeA&;
 
     // func description commentary
     virtual auto func2Name(
         const ::std::string& key,
         int value // const in the decleration
-    ) -> int
+    ) & -> int
         override;
         
     // func description commentary
@@ -690,3 +690,11 @@ switch (i) {
     break;
 }
 ```
+
+Comparison and assignment operators should not be virtual.
+
+Child class fields should not shadow parent class fields
+
+`::std::source_location` should be used instead of `__FILE__`, `__LINE__`, and `__func__` macros
+
+`::std::jthread` should be used instead of `::std::thread`
