@@ -176,7 +176,7 @@ Getters and setters must always be used and be named as follow :
 Methods should be ordered as follows: constructors, destructors, copy idiom, move idiom, assignement operators, then grouped by meaning.
 
 ### Rule of 0 and rule of 5
-Avoid specifying any of the special member functions. If 1 is specified, then specify them all.
+Avoid specifying any of the special member functions. If 1 is specified, then specify them all. Destructor and move operators should be noexcept.
 
 ### Access specifier
 Access specifiers must be as indented like the class keyword and be declared as the following order: public then protected then private
@@ -674,3 +674,19 @@ Objects should not be sliced, instead, use polymorphism and smart pointers.
 
 ### Mutexes
 Should be unlocked in the reverse order they were locked
+
+### case ranges
+Should cover multiple values
+```cpp
+switch (i) {
+  case 0:
+    //...
+    break;
+  case 1 ... 2:
+    //...
+    break;
+  case 3:
+    //...
+    break;
+}
+```
