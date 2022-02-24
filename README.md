@@ -724,3 +724,5 @@ Constants should come first in equality tests.
 ```cpp
 if (constant == var)
 ```
+
+const methods should be thread safe.
