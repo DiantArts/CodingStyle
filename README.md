@@ -726,3 +726,5 @@ if (constant == var)
 ```
 
 const methods should be thread safe.
+
+Copy and move constructors should not be made explicit.
