@@ -732,5 +732,5 @@ Copy and move constructors should not be made explicit.
 When creating a reference object, never use brackets to avoid calls to the copy constructor
 ```cpp
 const auto& reference1{ object }; // bad, uses copy constructor
-const auto& reference2 = object;
+const auto& reference2 = object; // good
 ```
